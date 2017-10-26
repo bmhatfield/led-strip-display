@@ -1,7 +1,7 @@
 class Editor extends React.Component {
     render() {
         return (
-            <div id="editor">
+            <div>
                 <Edge side="top" pixels="39" />
                 <Edge side="left" pixels="33" />
                 <Edge side="right" pixels="33" />
