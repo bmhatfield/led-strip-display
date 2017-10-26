@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>LED Strip Display</title>
+
+        <script src="vendor/react.production.min.js"></script>
+        <script src="vendor/react-dom.production.min.js"></script>
+        <script src="vendor/babel.min.js"></script>
+
+        <style>
+            #editor {
+                position: absolute;
+                width: 600px;
+                top: 100px;
+                left: 200px;
+                background-color: lightgray;
+            }
+
+            #frame-top {
+                color: purple;
+                position: absolute;
+                left: 15px;
+            }
+
+            #frame-left {
+                color: red;
+                width: 20px;
+                float: left;
+                top: 18px;
+                position: absolute;
+            }
+
+            #frame-right {
+                color: green;
+                width: 20px;
+                float: right;
+                top: 18px;
+                left: 585px;
+                position: absolute;
+            }
+
+            #frame-bottom {
+                color: blue;
+                position: absolute;
+                top: 615px;
+                left: 15px;
+            }
+
+            #frame-extra {
+                color: yellow;
+                position: absolute;
+                top: 700px;
+            }
+
+            .pixel {
+                display: inline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="editor"></div>
+
+        <script type="text/jsx" src="src/editor.jsx"></script>
+        <script type="text/jsx" src="src/pixel.jsx"></script>
+        <script type="text/jsx" src="src/edge.jsx"></script>
+
+        <script type="text/jsx" src="src/app.jsx"></script>
+    </body>
+</html>

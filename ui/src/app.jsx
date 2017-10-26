@@ -1,0 +1,1 @@
+ReactDOM.render(<Editor/>, document.getElementById('editor'));
