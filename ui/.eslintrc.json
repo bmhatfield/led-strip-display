@@ -1,0 +1,21 @@
+{
+    "extends": "google",
+    "env": {
+        "es6": true
+    },
+    "plugins": [
+        "babel",
+        "react"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "require-jsdoc": "off",
+        "max-len": "off"
+    }
+}
