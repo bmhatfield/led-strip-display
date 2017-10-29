@@ -1,14 +1,14 @@
 class Edge extends React.Component {
     pixels() {
-        var pixels = [];
-        var pixel;
+        let pixels = [];
+        let pixel;
         for (pixel = 0; pixel < this.props.pixels; pixel++) {
             pixels.push(<Pixel id={ pixel } side={ this.props.side } />)
         }
 
         return (
             pixels
-        )
+        );
     }
 
     render() {
@@ -16,6 +16,6 @@ class Edge extends React.Component {
             <div class="edge" id={ `frame-${this.props.side}` }>
                 { this.pixels() }
             </div>
-        )
+        );
     }
 }
