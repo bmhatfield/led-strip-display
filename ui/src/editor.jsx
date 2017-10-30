@@ -18,7 +18,7 @@ class Editor extends React.Component {
         */
 
         // Get our App's Editor component
-        let editor = document.getElementById('editor')
+        let editor = document.getElementById('editor');
 
         // This gets us the HTMLCollection objects representing our DOM nodes
         let bottomPixelsCollection = editor.getElementsByClassName('pixel-bottom');
@@ -57,7 +57,19 @@ class Editor extends React.Component {
             }
         }
 
-        console.log(strip);
+        let data = {
+            brightness: 100,
+            pixels: strip,
+        };
+
+        fetch('/frame/rgb', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
     }
 
     render() {
