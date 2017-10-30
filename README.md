@@ -20,3 +20,15 @@ Please note that this software is currently very purpose-built. The following ar
 * The PWM library for LED strips can be difficult to build (see here: https://github.com/jgarff/rpi_ws281x/issues/234 )
 
 However, the React component based design should allow folks to realign the Edges with the number of pixels they find most appropriate (adjusting the serialization approach as well).
+
+
+### References
+
+React:
+* [Building your First React JS App](https://medium.com/learning-new-stuff/building-your-first-react-js-app-d53b0c98dc)
+* [Getting Started with React JSX](https://www.sitepoint.com/getting-started-react-jsx/)
+
+Echo:
+* [Customization](https://echo.labstack.com/guide/customization)
+* [Error Handling](https://echo.labstack.com/guide/error-handling)
+* [Godoc](https://godoc.org/github.com/labstack/echo)
