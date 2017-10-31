@@ -3,7 +3,7 @@ class Edge extends React.Component {
         let pixels = [];
         let pixel;
         for (pixel = 0; pixel < this.props.pixels; pixel++) {
-            pixels.push(<Pixel id={ pixel } side={ this.props.side } />)
+            pixels.push(<Pixel id={ pixel } side={ this.props.side } key={ `pixel-${this.props.side}-${pixel}` } />)
         }
 
         return (
@@ -13,7 +13,7 @@ class Edge extends React.Component {
 
     render() {
         return (
-            <div class="edge" id={ `frame-${this.props.side}` }>
+            <div className="edge" id={ `frame-${this.props.side}` }>
                 { this.pixels() }
             </div>
         );

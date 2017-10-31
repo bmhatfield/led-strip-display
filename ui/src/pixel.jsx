@@ -2,22 +2,25 @@ class Pixel extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            bgcolor: '#000000',
+        };
     }
 
-    componentDidMount() {
-        let options = {
-            valueElement: null,
-        };
-
-        this.state.picker = new jscolor(`pixel-${this.props.side}-${this.props.id + 1}`, options);
+    updateColor(event) {
+        console.log(event);
+        this.setState({
+            bgcolor: event.target.value,
+        });
     }
 
     render() {
         return (
-            <div class={`pixel pixel-${this.props.side}`}
-                 id={ `pixel-${this.props.side}-${this.props.id + 1}` }>
-            </div>
+            <label className={`pixel pixel-${this.props.side}`}
+                 id={ `pixel-${this.props.side}-${this.props.id + 1}` }
+                 style={ {backgroundColor: this.state.bgcolor} }>
+                 <input type="color" onChange={ this.updateColor.bind(this) } />
+            </label>
         );
     }
 }
