@@ -32,3 +32,6 @@ Echo:
 * [Customization](https://echo.labstack.com/guide/customization)
 * [Error Handling](https://echo.labstack.com/guide/error-handling)
 * [Godoc](https://godoc.org/github.com/labstack/echo)
+
+Systemd:
+* [Creating and using a systemd service](https://www.digitalocean.com/community/questions/convert-run-at-startup-script-from-upstart-to-systemd-for-ubuntu-16)
