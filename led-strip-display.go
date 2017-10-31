@@ -10,6 +10,10 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
+var (
+	currentFrame *RGBFrame
+)
+
 // RGBFrame represents a single frame in RGB format
 type RGBFrame struct {
 	Brightness int      `json:"brightness"`
@@ -17,7 +21,7 @@ type RGBFrame struct {
 }
 
 // StringColors returns a GRB slice of pixels
-func (f RGBFrame) StringColors() (*ledstrip.StringColors, error) {
+func (f *RGBFrame) StringColors() (*ledstrip.StringColors, error) {
 	strip := new(ledstrip.StringColors)
 
 	for _, pixel := range f.Pixels {
@@ -59,6 +63,8 @@ func RGBFramePost(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
+	currentFrame = frame
+
 	colors, err := frame.StringColors()
 
 	if err != nil {
@@ -71,6 +77,16 @@ func RGBFramePost(c echo.Context) error {
 	return c.JSON(http.StatusOK, frame)
 }
 
+// RGBFrameGet returns one frame, of RGB values, via GET
+func RGBFrameGet(c echo.Context) error {
+	if currentFrame == nil {
+		c.Logger().Warn("Creating empty RGBFrame for currentFrame")
+		currentFrame = new(RGBFrame)
+	}
+
+	return c.JSON(http.StatusOK, *currentFrame)
+}
+
 func main() {
 	// Spin up new Echo server object
 	e := echo.New()
@@ -79,6 +95,9 @@ func main() {
 
 	// /frame/rgb recieves one frame with values in `rgb(r,g,b)` format
 	e.POST("/frame/rgb", RGBFramePost)
+
+	// /frame/rgb returns one frame with values in `rgb(r,g,b)` format
+	e.GET("/frame/rgb", RGBFrameGet)
 
 	// Serve the UI static files
 	e.Static("/", "ui")

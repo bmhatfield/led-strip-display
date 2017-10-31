@@ -13,6 +13,12 @@ class Pixel extends React.Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            bgcolor: nextProps.bgcolor,
+        });
+    }
+
     render() {
         return (
             <label className={`pixel pixel-${this.props.side}`}

@@ -1,4 +1,16 @@
 class Editor extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            bgcolor: '#000000',
+            bottomNumPixels: 37,
+            leftNumPixels: 32,
+            rightNumPixels: 32,
+            topNumPixels: 37,
+        };
+    }
+
     save() {
         /*
             The actual physical LED strip is a 1px by 150px display. For the purposes
@@ -72,13 +84,42 @@ class Editor extends React.Component {
         });
     }
 
+    load() {
+        fetch('/frame/rgb', {
+            headers: {
+                'Accept': 'application/json',
+            },
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            let bottomOffset = this.state.bottomNumPixels;
+            let leftOffset = bottomOffset + this.state.leftNumPixels;
+            let topOffset = leftOffset + this.state.topNumPixels;
+            let rightOffset = topOffset + this.state.rightNumPixels;
+
+            this.setState({
+                bottomPixels: data.pixels.slice(0, bottomOffset).reverse(),
+                leftPixels: data.pixels.slice(bottomOffset, leftOffset).reverse(),
+                topPixels: data.pixels.slice(leftOffset, topOffset),
+                rightPixels: data.pixels.slice(topOffset, rightOffset),
+            });
+        }.bind(this)).catch(function(err) {
+            console.log('Editor: unable to retrieve current frame, using default');
+            console.log(err);
+        });
+    }
+
+    componentWillMount() {
+        this.load();
+    }
+
     render() {
         return (
             <div id="editor">
-                <Edge side="top" pixels="37" bgcolor="#000000" />
-                <Edge side="left" pixels="32" bgcolor="#000000" />
-                <Edge side="right" pixels="32" bgcolor="#000000" />
-                <Edge side="bottom" pixels="37" bgcolor="#000000" />
+                <Edge side="top" pixels={this.state.bottomNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.topPixels} />
+                <Edge side="left" pixels={this.state.leftNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.leftPixels}/>
+                <Edge side="right" pixels={this.state.rightNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.rightPixels}/>
+                <Edge side="bottom" pixels={this.state.topNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.bottomPixels}/>
 
                 <input type="button" value="Save" onClick={this.save} />
             </div>
