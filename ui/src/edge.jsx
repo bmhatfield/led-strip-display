@@ -3,7 +3,7 @@ class Edge extends React.Component {
         let pixels = [];
         let pixel;
         for (pixel = 0; pixel < this.props.pixels; pixel++) {
-            pixels.push(<Pixel id={ pixel } side={ this.props.side } key={ `pixel-${this.props.side}-${pixel}` } />)
+            pixels.push(<Pixel id={ pixel } bgcolor={this.props.bgcolor} side={ this.props.side } key={ `pixel-${this.props.side}-${pixel}` } />)
         }
 
         return (

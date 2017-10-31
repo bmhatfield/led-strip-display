@@ -75,10 +75,10 @@ class Editor extends React.Component {
     render() {
         return (
             <div id="editor">
-                <Edge side="top" pixels="37" />
-                <Edge side="left" pixels="32" />
-                <Edge side="right" pixels="32" />
-                <Edge side="bottom" pixels="37" />
+                <Edge side="top" pixels="37" bgcolor="#000000" />
+                <Edge side="left" pixels="32" bgcolor="#000000" />
+                <Edge side="right" pixels="32" bgcolor="#000000" />
+                <Edge side="bottom" pixels="37" bgcolor="#000000" />
 
                 <input type="button" value="Save" onClick={this.save} />
             </div>

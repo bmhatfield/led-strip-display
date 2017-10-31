@@ -3,12 +3,11 @@ class Pixel extends React.Component {
         super(props);
 
         this.state = {
-            bgcolor: '#000000',
+            bgcolor: this.props.bgcolor,
         };
     }
 
     updateColor(event) {
-        console.log(event);
         this.setState({
             bgcolor: event.target.value,
         });
