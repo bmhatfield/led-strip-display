@@ -1,0 +1,9 @@
+[Unit]
+Description=Backend for the LED Strip Display
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/go/src/github.com/bmhatfield/led-strip-display/led-strip-display
+
+[Install]
+WantedBy=multi-user.target
