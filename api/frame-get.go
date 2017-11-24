@@ -9,10 +9,10 @@ import (
 
 // RGBFrameGet returns one frame, of RGB values, via GET
 func RGBFrameGet(c echo.Context) error {
-	if currentFrame == nil {
+	if CurrentFrame == nil {
 		c.Logger().Warn("Creating empty RGBFrame for currentFrame")
-		currentFrame = new(frame.RGBFrame)
+		CurrentFrame = &frame.RGBFrame{}
 	}
 
-	return c.JSON(http.StatusOK, *currentFrame)
+	return c.JSON(http.StatusOK, *CurrentFrame)
 }

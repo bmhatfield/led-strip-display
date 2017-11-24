@@ -1,33 +1,28 @@
 package ledstrip
 
 import (
-	"fmt"
-
-	ws2811 "github.com/jgarff/rpi_ws281x"
+	"github.com/bmhatfield/led-strip-display/frame"
+	ws2811 "github.com/jgarff/rpi_ws281x" // Will not build on OSX
 )
 
-// Render publishes a StringColors to an LED strip
-func Render(strip StringColors) {
-	fmt.Println("Publishing LED Display Strip...")
+// LinuxStrip to satisfy the Strip interface
+type LinuxStrip struct{}
 
-	err := ws2811.Init(12, 150, strip.Brightness)
+// Init initializes the ws2811 strip
+func (s LinuxStrip) Init(gpio, pixels, brightness int) error {
+	return ws2811.Init(gpio, pixels, brightness)
+}
 
-	if err != nil {
-		fmt.Println(err)
+// Render publishes 150 pixels to an LED strip
+func (s LinuxStrip) Render(strip frame.HexGRBFrame) error {
+	for index, color := range strip {
+		ws2811.SetLed(index, color)
 	}
 
-	for index, color := range strip.LEDs {
-		hex := (color[0] * 0x10000) + (color[1] * 0x100) + color[2]
-		fmt.Printf("%v -> %08X, ", index+1, hex)
-		ws2811.SetLed(index, uint32(hex))
-	}
+	return ws2811.Render()
+}
 
-	err = ws2811.Render()
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println("Rendering Complete!")
-	fmt.Println()
+// GetStrip returns a LinuxStrip to satisfy the Strip interface
+func GetStrip() Strip {
+	return LinuxStrip{}
 }

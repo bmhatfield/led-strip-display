@@ -1,29 +1,9 @@
 package ledstrip
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-)
+import "github.com/bmhatfield/led-strip-display/frame"
 
-// StringColors is a serialized version of an LED strip
-type StringColors struct {
-	Brightness int      `json:"Brightness"`
-	LEDs       [][3]int `json:"LEDs"`
-}
-
-// LoadStringFromPath loads a StringColors from an on-disk JSON encoding
-func LoadStringFromPath(path string) StringColors {
-	raw, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	var sc StringColors
-
-	json.Unmarshal(raw, &sc)
-
-	return sc
+// Strip represents the OS-Specific Strip Interface
+type Strip interface {
+	Init(gpio, pixels, brightness int) error
+	Render(strip frame.HexGRBFrame) error
 }
