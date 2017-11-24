@@ -2,11 +2,18 @@ package main
 
 import (
 	"github.com/bmhatfield/led-strip-display/api"
+	"github.com/bmhatfield/led-strip-display/led-strip"
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 )
 
 func main() {
+	// Get our OS-defined LED Strip
+	strip := ledstrip.GetStrip()
+
+	// Set up API Render Queue
+	api.RenderQueue = ledstrip.NewRenderServer(strip)
+
 	// Spin up new Echo server object
 	e := echo.New()
 
