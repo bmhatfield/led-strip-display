@@ -9,8 +9,8 @@ import (
 
 // StringColors is a serialized version of an LED strip
 type StringColors struct {
-	Brightness int     `json:"Brightness"`
-	LEDs       [][]int `json:"LEDs"`
+	Brightness int      `json:"Brightness"`
+	LEDs       [][3]int `json:"LEDs"`
 }
 
 // LoadStringFromPath loads a StringColors from an on-disk JSON encoding

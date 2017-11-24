@@ -37,7 +37,7 @@ func (f *RGBFrame) StringColors() (*ledstrip.StringColors, error) {
 			return nil, err
 		}
 
-		strip.LEDs = append(strip.LEDs, []int{green, red, blue})
+		strip.LEDs = append(strip.LEDs, [3]int{green, red, blue})
 	}
 
 	strip.Brightness = f.Brightness
