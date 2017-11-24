@@ -2,9 +2,7 @@ package frame
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -60,16 +58,15 @@ func (f *RGBFrame) ToHexGRBFrame() (HexGRBFrame, error) {
 }
 
 // RGBFrameFromDisk loads a StringColors from an on-disk JSON encoding
-func RGBFrameFromDisk(path string) *RGBFrame {
+func RGBFrameFromDisk(path string) (*RGBFrame, error) {
 	frame := &RGBFrame{}
 
 	raw, err := ioutil.ReadFile(path)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return nil, err
 	}
 
-	json.Unmarshal(raw, frame)
+	err = json.Unmarshal(raw, frame)
 
-	return frame
+	return frame, err
 }
