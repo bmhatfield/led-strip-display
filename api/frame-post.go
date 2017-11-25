@@ -25,7 +25,7 @@ func RGBFramePost(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
-	RenderQueue <- queuableFrame
+	Renderer.FrameQueue <- queuableFrame
 	CurrentFrame = f
 
 	return c.JSON(http.StatusOK, f)

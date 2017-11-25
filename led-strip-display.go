@@ -12,7 +12,7 @@ func main() {
 	strip := ledstrip.GetStrip()
 
 	// Set up API Render Queue
-	api.RenderQueue = ledstrip.NewRenderServer(strip)
+	api.Renderer = ledstrip.NewRenderServer(strip)
 
 	// Spin up new Echo server object
 	e := echo.New()
