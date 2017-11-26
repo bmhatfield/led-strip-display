@@ -38,9 +38,10 @@ func (c *Clock) String() string {
 // From returns a Clock based upon a Time
 func From(t time.Time) *Clock {
 	h, m, s := t.Clock()
+	ct := time.Date(0, 0, 0, h, m, s, 0, t.Location())
 
 	return &Clock{
 		baseTime:  t,
-		clockTime: time.Date(0, 0, 0, h, m, s, 0, t.Location()),
+		clockTime: ct,
 	}
 }

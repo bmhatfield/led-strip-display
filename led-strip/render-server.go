@@ -4,56 +4,62 @@ import (
 	"log"
 	"time"
 
+	"github.com/bmhatfield/led-strip-display/clock"
 	"github.com/bmhatfield/led-strip-display/frame"
 	"github.com/bmhatfield/sunset/sunset"
 )
 
-// ShouldBeOff reports whether the current time is "after dark" or not
-func ShouldBeOff(sunsetTime time.Time) bool {
-	disableHour, disableMinute := 1, 0
-	now := time.Now()
+// ShouldBeOn reports whether the current time is "after dark" or not
+func ShouldBeOn(sunsetTime *clock.Clock) bool {
+	now := clock.From(time.Now())
+	disabled := clock.From(time.Date(0, 0, 0, 1, 0, 0, 0, time.Local))
 
-	return sunsetTime.After(now) && now.Hour() >= disableHour && now.Minute() >= disableMinute
+	return sunsetTime.Before(now) || disabled.After(now)
 }
 
 // RenderServer is an async server for rendering frames
 type RenderServer struct {
-	FrameQueue  chan frame.HexGRBFrame
-	strip       Strip
-	ticker      *time.Ticker
-	enabled     bool
-	nextEnabled time.Time
+	FrameQueue chan frame.HexGRBFrame
+	strip      Strip
+	ticker     *time.Ticker
+	enabled    bool
+	sunset     *clock.Clock
 }
 
 func (r *RenderServer) scheduler() {
-	var sunsetTime time.Time
+	// Set up channel to receive daily updated sunset times
 	sunsetTimes := sunset.AutoUpdatingTime()
 
+	// Perform initial setup
+	times := <-sunsetTimes
+	r.sunset = clock.From(times.Sunset.Local())
+	go r.renderSwitch()
+
+	// Continuously watch for updated sunset times
 	for {
-		select {
-		case times := <-sunsetTimes:
-			sunsetTime = times.Sunset.Local()
-		default:
-		}
+		// Blocking receive
+		times := <-sunsetTimes
 
-		if ShouldBeOff(sunsetTime) {
-			r.nextEnabled = sunsetTime
-			r.enabled = false
-		} else {
-			r.enabled = true
-		}
+		// Perform updates to state
+		r.sunset = clock.From(times.Sunset.Local())
+	}
+}
 
-		time.Sleep(30 * time.Second)
+func (r *RenderServer) renderSwitch() {
+	for {
+		r.enabled = ShouldBeOn(r.sunset)
+		time.Sleep(10 * time.Second)
 	}
 }
 
 func (r *RenderServer) render() {
-	var currentFrame frame.HexGRBFrame
+	currentFrame := frame.HexGRBFrame{}
 
 	for range r.ticker.C {
 		if r.enabled {
 			select {
 			case frame := <-r.FrameQueue:
+				log.Println("Rendering received frame...")
 				err := r.strip.Render(frame)
 
 				if err != nil {
@@ -66,9 +72,15 @@ func (r *RenderServer) render() {
 				continue
 			}
 		} else {
-			if r.nextEnabled.After(time.Now()) {
+			now := clock.From(time.Now())
+
+			if r.sunset != nil && r.sunset.After(now) {
+				log.Println("Strip is disabled, sleeping until", r.sunset)
+
 				r.strip.Render(frame.HexGRBFrame{})
-				time.Sleep(r.nextEnabled.Sub(time.Now()))
+				time.Sleep(r.sunset.Diff(now))
+
+				log.Println("Waking up strip...")
 				r.strip.Render(currentFrame)
 			}
 		}
