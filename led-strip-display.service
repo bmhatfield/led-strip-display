@@ -3,6 +3,7 @@ Description=Backend for the LED Strip Display
 
 [Service]
 Type=simple
+Environment=TZ=/usr/share/zoneinfo/America/New_York
 ExecStart=/home/ubuntu/go/src/github.com/bmhatfield/led-strip-display/led-strip-display
 
 [Install]
