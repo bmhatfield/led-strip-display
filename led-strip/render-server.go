@@ -25,7 +25,7 @@ type RenderServer struct {
 	nextEnabled time.Time
 }
 
-func (r RenderServer) scheduler() {
+func (r *RenderServer) scheduler() {
 	var sunsetTime time.Time
 	sunsetTimes := sunset.AutoUpdatingTime()
 
@@ -47,7 +47,7 @@ func (r RenderServer) scheduler() {
 	}
 }
 
-func (r RenderServer) render() {
+func (r *RenderServer) render() {
 	var currentFrame frame.HexGRBFrame
 
 	for range r.ticker.C {
