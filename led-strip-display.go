@@ -10,6 +10,7 @@ import (
 func main() {
 	// Get our OS-defined LED Strip
 	strip := ledstrip.GetStrip()
+	strip.Init(12, 150, 200)
 
 	// Set up API Render Queue
 	api.Renderer = ledstrip.NewRenderServer(strip)
