@@ -77,6 +77,9 @@ func (r *RenderServer) render() {
 
 // NewRenderServer returns the channel you can send to a RenderServer on
 func NewRenderServer(strip Strip) *RenderServer {
+	// Initialize the strip for our purposes
+	strip.Init(12, 150, 200)
+
 	// Create the new RenderServer struct
 	server := &RenderServer{strip: strip}
 
