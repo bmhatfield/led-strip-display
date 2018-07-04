@@ -4,6 +4,8 @@ Description=Backend for the LED Strip Display
 [Service]
 Type=simple
 Environment=TZ=America/New_York
+Environment=LAT=0
+Environment=LON=0
 WorkingDirectory=/home/ubuntu/go/src/github.com/bmhatfield/led-strip-display
 ExecStart=/home/ubuntu/go/src/github.com/bmhatfield/led-strip-display/led-strip-display
 
