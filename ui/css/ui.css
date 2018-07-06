@@ -1,0 +1,51 @@
+#app {
+    width: 100%;
+    text-align: center;
+}
+
+#editor {
+    text-align: left;
+    background-color: lightgray;
+    display: inline-block;
+    position: relative;
+}
+
+#frame-left {
+    width: 22px;
+    float: left;
+}
+
+#frame-right {
+    width: 22px;
+    float: right;
+}
+
+#frame-bottom {
+    position: absolute;
+    bottom: 0px;
+}
+
+#frame-extra {
+    background-color: yellow;
+}
+
+.pixel {
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid white;
+}
+
+.edge {
+    line-height: 0px;
+    background-color: white;
+}
+
+body {
+    margin: 0px;
+}
+
+input[type="color"] {
+    visibility: hidden;
+}
