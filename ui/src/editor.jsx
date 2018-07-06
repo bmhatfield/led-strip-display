@@ -1,4 +1,4 @@
-class Editor extends React.Component {
+class Editor extends React.Component { // eslint-disable-line no-unused-vars
     constructor(props) {
         super(props);
 

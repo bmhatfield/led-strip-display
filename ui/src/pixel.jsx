@@ -1,4 +1,4 @@
-class Pixel extends React.Component {
+class Pixel extends React.Component { // eslint-disable-line no-unused-vars
     constructor(props) {
         super(props);
 

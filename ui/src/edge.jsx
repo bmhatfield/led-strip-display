@@ -1,4 +1,4 @@
-class Edge extends React.Component {
+class Edge extends React.Component { // eslint-disable-line no-unused-vars
     pixels() {
         let pixels = [];
         let pixel;
