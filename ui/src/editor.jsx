@@ -105,7 +105,6 @@ class Editor extends React.Component {
             });
         }.bind(this)).catch(function(err) {
             console.log('Editor: unable to retrieve current frame, using default');
-            console.log(err);
         });
     }
 
