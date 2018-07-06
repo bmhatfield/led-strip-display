@@ -2,6 +2,7 @@ class Edge extends React.Component { // eslint-disable-line no-unused-vars
     pixels() {
         let pixels = [];
         let pixel;
+
         for (pixel = 0; pixel < this.props.pixels; pixel++) {
             let bgcolor = this.props.bgcolor;
 

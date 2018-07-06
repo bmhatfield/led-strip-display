@@ -4,6 +4,7 @@ class Pixel extends React.Component { // eslint-disable-line no-unused-vars
 
         this.state = {
             bgcolor: this.props.bgcolor,
+            bordercolor: 'white',
         };
     }
 
@@ -19,12 +20,19 @@ class Pixel extends React.Component { // eslint-disable-line no-unused-vars
         });
     }
 
+    style() {
+        return {
+            backgroundColor: this.state.bgcolor,
+            borderColor: this.state.bordercolor,
+        };
+    }
+
     render() {
         return (
             <label className={`pixel pixel-${this.props.side}`}
                  id={ `pixel-${this.props.side}-${this.props.id + 1}` }
-                 style={ {backgroundColor: this.state.bgcolor} }>
-                 <input type="color" onChange={ this.updateColor.bind(this) } />
+                 style={ this.style() }>
+                 <input type="color" onChange={ this.updateColor.bind(this) } value={this.state.bgcolor} />
             </label>
         );
     }
