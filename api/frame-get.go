@@ -7,11 +7,21 @@ import (
 	"github.com/labstack/echo"
 )
 
-// RGBFrameGet returns one frame, of RGB values, via GET
-func RGBFrameGet(c echo.Context) error {
+// StringRGBFrameGet returns one frame, of RGB values, via GET
+func StringRGBFrameGet(c echo.Context) error {
 	if CurrentFrame == nil {
-		c.Logger().Warn("Creating empty RGBFrame for currentFrame")
-		CurrentFrame = &frame.RGBFrame{}
+		c.Logger().Warn("Creating empty HexGRB for currentFrame")
+		CurrentFrame = &frame.HexGRB{}
+	}
+
+	return c.JSON(http.StatusOK, *CurrentFrame)
+}
+
+// HexRGBFrameGet returns one frame, of Hex values, via GET
+func HexRGBFrameGet(c echo.Context) error {
+	if CurrentFrame == nil {
+		c.Logger().Warn("Creating empty HexGRB for currentFrame")
+		CurrentFrame = &frame.HexGRB{}
 	}
 
 	return c.JSON(http.StatusOK, *CurrentFrame)

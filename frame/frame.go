@@ -1,72 +1,34 @@
 package frame
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"strconv"
-	"strings"
+	"fmt"
 )
 
-// HexGRBFrame represents the strip-side format of pixels
-type HexGRBFrame [150]uint32
-
-// ConvertToHex takes an array of 3 color values (G, R, B) and returns a hex uint32
-func ConvertToHex(colors [3]int) uint32 {
-	return uint32((colors[0] * 0x10000) + (colors[1] * 0x100) + colors[2])
+// RenderableFrame represents a frame that can be rendered by a displaystrip,
+// which accepts a HexGRB frame
+type RenderableFrame interface {
+	RenderFrame() (HexGRB, error)
 }
 
-// RGBFrame represents a single frame in RGB format. Intended to be used in API
-// communication between frontend/backend services. Inefficient.
-type RGBFrame struct {
-	Brightness int      `json:"brightness"`
-	Pixels     []string `json:"pixels"`
+// RGBToHex takes an array of 3 color values (R, G, B) and returns a hex uint32
+func RGBToHex(colors [3]int) uint32 {
+	r := colors[0] * 0x10000
+	g := colors[1] * 0x100
+	b := colors[2]
+
+	return uint32(r + g + b)
 }
 
-// ToHexGRBFrame returns a HexGRBFrame of pixels
-func (f *RGBFrame) ToHexGRBFrame() (HexGRBFrame, error) {
-	bufferPixel := [3]int{}
-	frame := HexGRBFrame{}
-
-	for index, pixel := range f.Pixels {
-		left := strings.Index(pixel, "(")
-		right := strings.Index(pixel, ")")
-		rgb := strings.Split(pixel[left+1:right], ", ")
-
-		red, err := strconv.Atoi(rgb[0])
-		if err != nil {
-			return frame, err
-		}
-
-		green, err := strconv.Atoi(rgb[1])
-		if err != nil {
-			return frame, err
-		}
-
-		blue, err := strconv.Atoi(rgb[2])
-		if err != nil {
-			return frame, err
-		}
-
-		bufferPixel[0] = green
-		bufferPixel[1] = red
-		bufferPixel[2] = blue
-
-		frame[index] = ConvertToHex(bufferPixel)
-	}
-
-	return frame, nil
+// RGBToString takes an array of 3 color values (R, G, B) and returns a string
+func RGBToString(colors [3]int) string {
+	return fmt.Sprintf("rgb(%d, %d, %d)", colors[0], colors[1], colors[2])
 }
 
-// RGBFrameFromDisk loads a StringColors from an on-disk JSON encoding
-func RGBFrameFromDisk(path string) (*RGBFrame, error) {
-	frame := &RGBFrame{}
+// RGBToColors takes a hex value and returns an array of color values
+func RGBToColors(pixel uint32) [3]int {
+	r := int(pixel / 0x10000)
+	g := int((pixel / 0x100) - uint32(r)*0x100)
+	b := int(pixel - ((pixel / 0x100) * 0x100))
 
-	raw, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(raw, frame)
-
-	return frame, err
+	return [3]int{r, g, b}
 }

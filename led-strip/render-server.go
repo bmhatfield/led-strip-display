@@ -19,7 +19,7 @@ func ShouldBeOn(sunsetTime *clock.Clock) bool {
 
 // RenderServer is an async server for rendering frames
 type RenderServer struct {
-	FrameQueue chan frame.HexGRBFrame
+	FrameQueue chan frame.HexGRB
 	strip      Strip
 	ticker     *time.Ticker
 	enabled    bool
@@ -53,7 +53,7 @@ func (r *RenderServer) renderSwitch() {
 }
 
 func (r *RenderServer) render() {
-	currentFrame := frame.HexGRBFrame{}
+	currentFrame := frame.HexGRB{}
 
 	for range r.ticker.C {
 		if r.enabled {
@@ -77,7 +77,7 @@ func (r *RenderServer) render() {
 			if r.sunset != nil && r.sunset.After(now) {
 				log.Println("Strip is disabled, sleeping until", r.sunset)
 
-				r.strip.Render(frame.HexGRBFrame{})
+				r.strip.Render(frame.HexGRB{})
 				time.Sleep(r.sunset.Diff(now))
 
 				log.Println("Waking up strip...")
@@ -96,7 +96,7 @@ func NewRenderServer(strip Strip) *RenderServer {
 	server := &RenderServer{strip: strip}
 
 	// Create our queue of frames to render
-	server.FrameQueue = make(chan frame.HexGRBFrame, 120)
+	server.FrameQueue = make(chan frame.HexGRB, 120)
 
 	// Create a timing mechanism to ensure consistent FPS
 	server.ticker = time.NewTicker(40 * time.Millisecond) // 25 FPS
