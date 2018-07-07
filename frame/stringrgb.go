@@ -10,6 +10,7 @@ import (
 // StringRGB represents a JS `rgb(r,g,b)` frame representation
 type StringRGB [150]string
 
+// RenderFrame returns a renderable frame version of StringRGB
 func (f *StringRGB) RenderFrame() (HexGRB, error) {
 	bufferPixel := [3]int{}
 	frame := HexGRB{}
