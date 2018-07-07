@@ -69,10 +69,7 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
             }
         }
 
-        let data = {
-            brightness: 100,
-            pixels: strip,
-        };
+        let data = strip;
 
         fetch('/frame/rgb', {
             headers: {
@@ -81,11 +78,13 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
             },
             method: 'POST',
             body: JSON.stringify(data),
+        }).catch(function(err) {
+            console.log('Unable to update frame: ' + err);
         });
     }
 
     load() {
-        fetch('/frame/rgb', {
+        fetch('/frame/hex/rgb', {
             headers: {
                 'Accept': 'application/json',
             },
@@ -98,10 +97,10 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
             let rightOffset = topOffset + this.state.rightNumPixels;
 
             this.setState({
-                bottomPixels: data.pixels.slice(0, bottomOffset).reverse(),
-                leftPixels: data.pixels.slice(bottomOffset, leftOffset).reverse(),
-                topPixels: data.pixels.slice(leftOffset, topOffset),
-                rightPixels: data.pixels.slice(topOffset, rightOffset),
+                bottomPixels: data.slice(0, bottomOffset).reverse(),
+                leftPixels: data.slice(bottomOffset, leftOffset).reverse(),
+                topPixels: data.slice(leftOffset, topOffset),
+                rightPixels: data.slice(topOffset, rightOffset),
             });
         }.bind(this)).catch(function(err) {
             console.log('Editor: unable to retrieve current frame, using default');
