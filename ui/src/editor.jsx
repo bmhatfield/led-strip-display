@@ -69,15 +69,13 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
             }
         }
 
-        let data = strip;
-
         fetch('/frame/rgb', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(strip),
         }).catch(function(err) {
             console.log('Unable to update frame: ' + err);
         });
