@@ -17,7 +17,11 @@ func (s DarwinStrip) Init(gpio, pixels, brightness int) error {
 // Render logs pixel values on OSX
 func (s DarwinStrip) Render(strip frame.HexGRB) error {
 	for index, color := range strip {
-		fmt.Printf("%v -> %06x, ", index+1, color)
+		fmt.Printf("%03d:%06x ", index+1, color)
+
+		if (index+1)%15 == 0 {
+			fmt.Println()
+		}
 	}
 
 	fmt.Println()

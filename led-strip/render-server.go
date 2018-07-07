@@ -4,85 +4,59 @@ import (
 	"log"
 	"time"
 
-	"github.com/bmhatfield/led-strip-display/clock"
 	"github.com/bmhatfield/led-strip-display/frame"
-	"github.com/bmhatfield/sunset/sunset"
 )
-
-// ShouldBeOn reports whether the current time is "after dark" or not
-func ShouldBeOn(sunsetTime *clock.Clock) bool {
-	now := clock.From(time.Now())
-	disabled := clock.From(time.Date(0, 0, 0, 1, 0, 0, 0, time.Local))
-
-	return sunsetTime.Before(now) || disabled.After(now)
-}
 
 // RenderServer is an async server for rendering frames
 type RenderServer struct {
+	Enabled    bool
 	FrameQueue chan frame.HexGRB
 	strip      Strip
 	ticker     *time.Ticker
-	enabled    bool
-	sunset     *clock.Clock
-}
-
-func (r *RenderServer) scheduler() {
-	// Set up channel to receive daily updated sunset times
-	sunsetTimes := sunset.AutoUpdatingTime()
-
-	// Perform initial setup
-	times := <-sunsetTimes
-	r.sunset = clock.From(times.Sunset.Local())
-	go r.renderSwitch()
-
-	// Continuously watch for updated sunset times
-	for {
-		// Blocking receive
-		times := <-sunsetTimes
-
-		// Perform updates to state
-		r.sunset = clock.From(times.Sunset.Local())
-	}
-}
-
-func (r *RenderServer) renderSwitch() {
-	for {
-		r.enabled = ShouldBeOn(r.sunset)
-		time.Sleep(10 * time.Second)
-	}
+	blanked    bool
+	lastframe  frame.HexGRB
 }
 
 func (r *RenderServer) render() {
-	currentFrame := frame.HexGRB{}
-
 	for range r.ticker.C {
-		if r.enabled {
+		if r.Enabled {
+			if r.blanked {
+				select {
+				case r.FrameQueue <- r.lastframe:
+					log.Println("Re-rendering last frame before blanking")
+				default:
+					log.Println("Unable to re-render last frame before blanking; action would block")
+				}
+
+				r.blanked = false
+			}
+
 			select {
 			case frame := <-r.FrameQueue:
-				log.Println("Rendering received frame...")
 				err := r.strip.Render(frame)
 
 				if err != nil {
 					log.Println("Unable to render frame:", err)
+				} else {
+					r.lastframe = frame
 				}
-
-				currentFrame = frame
-
 			default:
 				continue
 			}
 		} else {
-			now := clock.From(time.Now())
+			if !r.blanked {
+				log.Println("Rendering blank frame because strip is disabled")
 
-			if r.sunset != nil && r.sunset.After(now) {
-				log.Println("Strip is disabled, sleeping until", r.sunset)
-
+				// Blank out the strip by rendering an empty frame
 				r.strip.Render(frame.HexGRB{})
-				time.Sleep(r.sunset.Diff(now))
 
-				log.Println("Waking up strip...")
-				r.strip.Render(currentFrame)
+				// Mark the server as blanked to avoid re-rendering
+				// blank frames every tick
+				r.blanked = true
 			}
+
+			// Slow down render attempts to 0.5fps when strip is disabled.
+			time.Sleep(2 * time.Second)
 		}
 	}
 }
@@ -101,12 +75,12 @@ func NewRenderServer(strip Strip) *RenderServer {
 	// Create a timing mechanism to ensure consistent FPS
 	server.ticker = time.NewTicker(40 * time.Millisecond) // 25 FPS
 
-	// The scheduler tells the program when to enable or disable the strip
-	go server.scheduler()
+	// Start our server enabled by default
+	server.Enabled = true
 
 	// Run the renderer
 	go server.render()
 
-	// Return the
+	// Return the RenderServer
 	return server
 }
