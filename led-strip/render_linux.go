@@ -14,7 +14,7 @@ func (s LinuxStrip) Init(gpio, pixels, brightness int) error {
 }
 
 // Render publishes 150 pixels to an LED strip
-func (s LinuxStrip) Render(strip frame.HexGRBFrame) error {
+func (s LinuxStrip) Render(strip frame.HexGRB) error {
 	for index, color := range strip {
 		ws2811.SetLed(index, color)
 	}
