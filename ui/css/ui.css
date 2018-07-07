@@ -5,7 +5,7 @@
 
 #editor {
     text-align: left;
-    background-color: lightgray;
+    background-color: #efefef;
     display: inline-block;
     position: relative;
 }
@@ -25,21 +25,15 @@
     bottom: 0px;
 }
 
-#frame-extra {
-    background-color: yellow;
-}
-
 .pixel {
-    background-color: black;
     width: 20px;
     height: 20px;
     display: inline-block;
-    border: 1px solid white;
+    border: 1px solid #ffffff;
 }
 
 .edge {
     line-height: 0px;
-    background-color: white;
 }
 
 body {
