@@ -14,7 +14,13 @@ func StringRGBFrameGet(c echo.Context) error {
 		CurrentFrame = &frame.HexGRB{}
 	}
 
-	return c.JSON(http.StatusOK, *CurrentFrame)
+	frame, err := CurrentFrame.StringRGB()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.JSON(http.StatusOK, frame)
 }
 
 // HexRGBFrameGet returns one frame, of Hex values, via GET
@@ -24,5 +30,11 @@ func HexRGBFrameGet(c echo.Context) error {
 		CurrentFrame = &frame.HexGRB{}
 	}
 
-	return c.JSON(http.StatusOK, *CurrentFrame)
+	frame, err := CurrentFrame.HexRGB()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.JSON(http.StatusOK, frame)
 }

@@ -29,6 +29,21 @@ func (f *HexGRB) HexRGB() (HexRGB, error) {
 	return frame, nil
 }
 
+// StringRGB returns a StringRGB version of the frame
+func (f *HexGRB) StringRGB() (StringRGB, error) {
+	frame := StringRGB{}
+
+	for index, pixel := range f {
+		colors := RGBToColors(pixel)
+
+		rgb := [3]int{colors[1], colors[0], colors[2]}
+
+		frame[index] = RGBToString(rgb)
+	}
+
+	return frame, nil
+}
+
 // UnmarshalJSON converts the string representation into []uint32
 func (f HexGRB) UnmarshalJSON(b []byte) error {
 	var strings []string

@@ -18,6 +18,11 @@ func (f *StringRGB) RenderFrame() (HexGRB, error) {
 	for index, pixel := range f {
 		left := strings.Index(pixel, "(")
 		right := strings.Index(pixel, ")")
+
+		if left < 0 || right < 0 {
+			continue
+		}
+
 		rgb := strings.Split(pixel[left+1:right], ", ")
 
 		red, err := strconv.Atoi(rgb[0])
