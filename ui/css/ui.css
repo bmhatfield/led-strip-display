@@ -11,12 +11,12 @@
 }
 
 #frame-left {
-    width: 22px;
+    width: 26px;
     float: left;
 }
 
 #frame-right {
-    width: 22px;
+    width: 26px;
     float: right;
 }
 
@@ -25,21 +25,38 @@
     bottom: 0px;
 }
 
-.pixel {
-    width: 20px;
-    height: 20px;
+.pixel, .color {
+    width: 22px;
+    height: 22px;
     display: inline-block;
     border: 1px solid #ffffff;
+    border-radius: 3px;
+    margin: 1px;
+}
+
+.color:active {
+    border-color: #6d6d6d;
 }
 
 .edge {
     line-height: 0px;
 }
 
-body {
-    margin: 0px;
+.picker {
+    float: left;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #eaeaea;
 }
 
-input[type="color"] {
-    visibility: hidden;
+input[type=button]#save-button {
+    background: #dfdfdf;
+    width: 60px;
+    height: 40px;
+    font-size: 1.3em;
+    border-radius: 3px;
+}
+
+body {
+    margin: 0px;
 }

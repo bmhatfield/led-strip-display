@@ -6,9 +6,16 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
             bgcolor: '#000000',
             bottomNumPixels: 37,
             leftNumPixels: 32,
-            rightNumPixels: 32,
+            rightNumPixels: 31,
             topNumPixels: 37,
+            selectionColor: null,
         };
+    }
+
+    broadcastSelectionColor(color) {
+        this.setState({
+            selectionColor: color,
+        });
     }
 
     save() {
@@ -112,12 +119,13 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
     render() {
         return (
             <div id="editor">
-                <Edge side="top" pixels={this.state.bottomNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.topPixels} />
-                <Edge side="left" pixels={this.state.leftNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.leftPixels}/>
-                <Edge side="right" pixels={this.state.rightNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.rightPixels}/>
-                <Edge side="bottom" pixels={this.state.topNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.bottomPixels}/>
+                <Edge side="top" pixels={this.state.bottomNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.topPixels} selectionColor={this.state.selectionColor} />
+                <Edge side="left" pixels={this.state.leftNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.leftPixels} selectionColor={this.state.selectionColor} />
+                <Edge side="right" pixels={this.state.rightNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.rightPixels} selectionColor={this.state.selectionColor} />
+                <Edge side="bottom" pixels={this.state.topNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.bottomPixels} selectionColor={this.state.selectionColor} />
+                <Picker broadcastHandler={(color) => this.broadcastSelectionColor(color)} selectionColor={this.state.selectionColor} />
 
-                <input type="button" value="Save" onClick={this.save} />
+                <input type="button" id="save-button" value="Save" onClick={this.save} />
             </div>
         );
     }
