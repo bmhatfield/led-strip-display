@@ -2,13 +2,11 @@
 
 A UI and service for interacting with a WS2812B-based LED strip via a Raspberry pi.
 
-
-### Early prototype
+## Early prototype
 
 ![Early prototype](early-prototype.jpg)
 
-
-### Notes
+## Notes
 
 This software was built around the concept of wrapping a window frame with an addressable LED strip. In order to ease interactions with the strip, it also includes a React-based webui and an Echo-based backend web service.
 
@@ -21,17 +19,31 @@ Please note that this software is currently very purpose-built. The following ar
 
 However, the React component based design should allow folks to realign the Edges with the number of pixels they find most appropriate (adjusting the serialization approach as well).
 
-
-### References
+## References
 
 React:
+
 * [Building your First React JS App](https://medium.com/learning-new-stuff/building-your-first-react-js-app-d53b0c98dc)
 * [Getting Started with React JSX](https://www.sitepoint.com/getting-started-react-jsx/)
 
 Echo:
+
 * [Customization](https://echo.labstack.com/guide/customization)
 * [Error Handling](https://echo.labstack.com/guide/error-handling)
 * [Godoc](https://godoc.org/github.com/labstack/echo)
 
 Systemd:
+
 * [Creating and using a systemd service](https://www.digitalocean.com/community/questions/convert-run-at-startup-script-from-upstart-to-systemd-for-ubuntu-16)
+
+## Feature Ideas
+
+* Clear Selection Button
+* Update Library
+  * Gamma Correction
+* Expanded Color Palette
+* Color Gradient over Range
+* Better UI Color Selector
+* Animation Support
+* Save / Load Layouts by Name
+* Make timer optional
