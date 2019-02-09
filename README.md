@@ -2,9 +2,9 @@
 
 A UI and service for interacting with a WS2812B-based LED strip via a Raspberry pi.
 
-## Early prototype
+## UI
 
-![Early prototype](early-prototype.jpg)
+![UI](ui.png)
 
 ## Notes
 

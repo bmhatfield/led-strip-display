@@ -1,5 +1,4 @@
 class Picker extends React.Component { // eslint-disable-line no-unused-vars
-
     interpolateColor(color1, color2, factor) {
         if (arguments.length < 3) {
             factor = 0.5;
