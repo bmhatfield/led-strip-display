@@ -123,8 +123,11 @@ class Editor extends React.Component { // eslint-disable-line no-unused-vars
                 <Edge side="left" pixels={this.state.leftNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.leftPixels} selectionColor={this.state.selectionColor} />
                 <Edge side="right" pixels={this.state.rightNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.rightPixels} selectionColor={this.state.selectionColor} />
                 <Edge side="bottom" pixels={this.state.topNumPixels} bgcolor={this.state.bgcolor} pixeldata={this.state.bottomPixels} selectionColor={this.state.selectionColor} />
-                <Picker broadcastHandler={(color) => this.broadcastSelectionColor(color)} selectionColor={this.state.selectionColor} />
 
+                <div id="vertical-rule" />
+                <div id="horizontal-rule" />
+
+                <Picker broadcastHandler={(color) => this.broadcastSelectionColor(color)} selectionColor={this.state.selectionColor} />
                 <input type="button" id="save-button" value="Save" onClick={this.save} />
             </div>
         );

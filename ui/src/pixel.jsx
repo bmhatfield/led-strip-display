@@ -34,7 +34,6 @@ class Pixel extends React.Component { // eslint-disable-line no-unused-vars
 
     style() {
         return {
-            borderColor: this.state.selected ? '#35FCEE' : '#FFFFFF',
             backgroundColor: this.state.backgroundColor,
         };
     }
@@ -72,7 +71,7 @@ class Pixel extends React.Component { // eslint-disable-line no-unused-vars
 
     render() {
         return (
-            <label className={`pixel pixel-${this.props.side}`}
+            <label className={`pixel pixel-${this.props.side} ${this.state.selected ? 'selected' : ''}`}
                  id={ `pixel-${this.props.side}-${this.props.id + 1}` }
                  style={ this.style() }
                  onMouseDown={ (event) => this.updateSelection(event) }

@@ -38,12 +38,17 @@ Systemd:
 
 ## Feature Ideas
 
-* Clear Selection Button
-* Update Library
-  * Gamma Correction
-* Expanded Color Palette
+UI:
+
+* ~~Gridlines~~
+* ~~Clear Selection~~
+* ~~Expanded Color Palette~~
 * Color Gradient over Range
-* Better UI Color Selector
 * Animation Support
 * Save / Load Layouts by Name
+
+Backend:
+
+* Update Library
+  * Gamma Correction
 * Make timer optional

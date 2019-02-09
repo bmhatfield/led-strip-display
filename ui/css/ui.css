@@ -1,22 +1,51 @@
 #app {
     width: 100%;
     text-align: center;
+    margin-top: 20px;
+}
+
+#help {
+    width: 100%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
 #editor {
     text-align: left;
-    background-color: #efefef;
     display: inline-block;
     position: relative;
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
+    background-size: 63px 63px;
+}
+
+#vertical-rule {
+    width: 1px;
+    position: absolute;
+    background-color: white;
+    margin-top: 4px;
+    margin-left: 50%;
+    height: 93%;
+    z-index: -1;
+}
+
+#horizontal-rule {
+    height: 1px;
+    position: absolute;
+    background-color: white;
+    margin-top: 425px;
+    width: 960px;
+    margin-left: 40px;
+    z-index: -1;
 }
 
 #frame-left {
-    width: 26px;
+    width: 28px;
     float: left;
 }
 
 #frame-right {
-    width: 26px;
+    width: 28px;
     float: right;
 }
 
@@ -29,9 +58,14 @@
     width: 22px;
     height: 22px;
     display: inline-block;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 3px;
     margin: 1px;
+}
+
+.pixel.selected {
+    border: 2px solid white;
+    outline: 2px solid royalblue;
 }
 
 .color:active {
@@ -46,7 +80,22 @@
     float: left;
     padding: 5px;
     border-radius: 3px;
-    background-color: #eaeaea;
+    background-color: #c0c0c0;
+    margin-left: 25px;
+    margin-top: 25px;
+    z-index: 5;
+}
+
+.picker > .color-group > p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    padding-left: 3px;
+    padding-top: 1px;
+    background-image: linear-gradient(to right, rgb(80, 80, 80) 50px, rgb(110, 110, 110));
+    width: calc(100% - 5px);
+    border-radius: 3px;
 }
 
 input[type=button]#save-button {
@@ -55,8 +104,14 @@ input[type=button]#save-button {
     height: 40px;
     font-size: 1.3em;
     border-radius: 3px;
+    margin: 5px;
+    margin-top: 25px;
 }
 
 body {
     margin: 0px;
+    background-image: linear-gradient(#434343, #282828);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
