@@ -40,8 +40,13 @@ func (s *LinuxStrip) Render(strip frame.HexGRB) error {
 		return err
 	}
 
+	RGB, err := strip.HexRGB()
+	if err != nil {
+		return err
+	}
+
 	leds := s.device.Leds(0)
-	for index, color := range strip {
+	for index, color := range RGB {
 		leds[index] = color
 	}
 
