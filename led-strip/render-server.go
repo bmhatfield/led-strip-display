@@ -64,7 +64,10 @@ func (r *RenderServer) render() {
 // NewRenderServer returns the channel you can send to a RenderServer on
 func NewRenderServer(strip Strip) *RenderServer {
 	// Initialize the strip for our purposes
-	strip.Init(12, 150, 200)
+	err := strip.Init(12, 150, 200)
+	if err != nil {
+		log.Fatal("Failed to initialze strip: ", err)
+	}
 
 	// Create the new RenderServer struct
 	server := &RenderServer{strip: strip}
