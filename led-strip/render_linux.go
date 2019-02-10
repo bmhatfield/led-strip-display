@@ -1,6 +1,8 @@
 package ledstrip
 
 import (
+	"errors"
+
 	"github.com/bmhatfield/led-strip-display/frame"
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
@@ -19,9 +21,12 @@ func (s LinuxStrip) Init(gpio, pixels, brightness int) error {
 	options.Channels[0].Brightness = brightness
 
 	device, err := ws2811.MakeWS2811(&options)
-
 	if err != nil {
 		return err
+	}
+
+	if device == nil {
+		return errors.New("No error returned, but strip device is nil")
 	}
 
 	s.device = device
