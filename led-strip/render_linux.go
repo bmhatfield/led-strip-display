@@ -1,8 +1,6 @@
 package ledstrip
 
 import (
-	"errors"
-
 	"github.com/bmhatfield/led-strip-display/frame"
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
@@ -25,10 +23,6 @@ func (s *LinuxStrip) Init(gpio, pixels, brightness int) error {
 		return err
 	}
 
-	if device == nil {
-		return errors.New("No error returned, but strip device is nil")
-	}
-
 	s.device = device
 	return s.device.Init()
 }
@@ -47,7 +41,9 @@ func (s *LinuxStrip) Render(strip frame.HexGRB) error {
 
 	leds := s.device.Leds(0)
 	for index, color := range RGB {
-		leds[index] = color
+		colors := frame.RGBToColors(color)
+		offset := frame.RGBSubtract(colors, 0, 0, 10) // TODO: don't hardcode this offset
+		leds[index] = frame.RGBToHex(offset)
 	}
 
 	return s.device.Render()

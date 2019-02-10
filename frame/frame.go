@@ -32,3 +32,20 @@ func RGBToColors(pixel uint32) [3]int {
 
 	return [3]int{r, g, b}
 }
+
+// RGBSubtract manipulates RGB channels of a pixel
+func RGBSubtract(pixel [3]int, r, g, b int) [3]int {
+	if pixel[0] > r {
+		pixel[0] -= r
+	}
+
+	if pixel[1] > g {
+		pixel[1] -= g
+	}
+
+	if pixel[2] > b {
+		pixel[2] -= b
+	}
+
+	return pixel
+}
