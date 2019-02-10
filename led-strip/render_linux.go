@@ -13,7 +13,7 @@ type LinuxStrip struct {
 }
 
 // Init initializes the ws2811 strip
-func (s LinuxStrip) Init(gpio, pixels, brightness int) error {
+func (s *LinuxStrip) Init(gpio, pixels, brightness int) error {
 	options := ws2811.DefaultOptions
 
 	options.Channels[0].GpioPin = gpio
@@ -34,7 +34,7 @@ func (s LinuxStrip) Init(gpio, pixels, brightness int) error {
 }
 
 // Render publishes 150 pixels to an LED strip
-func (s LinuxStrip) Render(strip frame.HexGRB) error {
+func (s *LinuxStrip) Render(strip frame.HexGRB) error {
 	err := s.device.Wait()
 	if err != nil {
 		return err
@@ -50,5 +50,5 @@ func (s LinuxStrip) Render(strip frame.HexGRB) error {
 
 // GetStrip returns a LinuxStrip to satisfy the Strip interface
 func GetStrip() Strip {
-	return LinuxStrip{}
+	return &LinuxStrip{}
 }
